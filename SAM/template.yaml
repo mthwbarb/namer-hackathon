@@ -125,7 +125,8 @@ Resources:
       CodeUri: generatePlaylist/
       Handler: app.lambda_handler
       Runtime: python3.9
-      EphemeralStorage: 1024
+      EphemeralStorage:
+        Size: 1024
   
   generateIntroFunction:
     Type: AWS::Serverless::Function

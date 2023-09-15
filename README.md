@@ -1,5 +1,5 @@
 # namer-hackathon
-# Generate a Podcast from an RSS feed
+# Generate a Podcast from the AWS whats new RSS Feed
 
 This repo contains an AWS SAM definition and a sample streamlit app to play your podcast.
 
