@@ -95,7 +95,16 @@
       "MaxConcurrency": 1,
       "InputPath": "$.Result.Payload",
       "ResultPath": "$.Result",
-      "Next": "Parallel"
+      "Next": "Parallel",
+      "ItemsPath": "$.Result.Payload",
+      "ItemSelector": {
+        "Result.$": "$$.Map.Item.Value",
+        "runId.$": "$.uuid",
+        "bucket.$": "$.bucket",
+        "feedUrl.$": "$.feedUrl",
+        "numDays.$": "$.numDays",
+        "llmEndpoint.$": "$.llmEndpoint"
+      }
     },
     "Parallel": {
       "Type": "Parallel",

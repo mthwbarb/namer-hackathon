@@ -1,6 +1,5 @@
 import boto3
 import json
-import urllib.parse
 
 s3=boto3.resource('s3')
 sagemaker = boto3.client('sagemaker')
@@ -63,8 +62,10 @@ def write_object(bucket,feeditem,dialog,run_id):
 
 def lambda_handler(event, context):
     try:
-        bucketname = event['metadata']['bucket']
-        key = event['metadata']['key']
+        print("Event Data:")
+        print(event)
+        bucketname = event['Result']['metadata']['bucket']
+        key = event['Result']['metadata']['key']
         runId = event['runId']
         endpoint = event['llmEndpoint']
         bucket = s3.Bucket(bucketname)

@@ -211,3 +211,11 @@ Resources:
           - sagemaker:InvokeEndpointAsync
           - sagemaker:InvokeEndpoint
           Resource: '*'
+          
+Outputs:
+  s3Bucket:
+    Description: "S3 Bucket"
+    Value: !Ref MyBucket
+  stateMachine:
+    Description: "State Machine"
+    Value: !Ref createPodcastStateMachine

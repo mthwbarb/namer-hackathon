@@ -16,10 +16,10 @@ This repo contains an AWS SAM definition and a sample streamlit app to play your
 1. Navigate to the SAM folder `cd SAM`
 2. Build the SAM package `sam build --use-container`
 3. Deploy the package.`sam deploy --guided`  Give your stack a name, and use the region where your SageMaker Endpoint is deployed.  Use the defaults for the rest of the options.
-4. The following resources will be deployed: AWS Step Functions State Machine, AWS S3 Bucket, 7 Lambda functions, various IAM roles and policies
+4. The following resources will be deployed: AWS Step Functions State Machine, AWS S3 Bucket, 7 Lambda functions, various IAM roles and policies.
 5. Navigate to the deployed state machine and choose **New Execution**
 6. Paste the json from `sampleStepFunctionInput` into the execution input field
-7. Replace the `bucket` with the bucket name deployed by the SAM application
+7. Replace the `bucket` with the bucket name deployed by the SAM application.
 8. Replace `llmEndpoint` with your SageMaker Endpoint Name.
 9. Replace `numDays` with the number of days from today that you want to process from the RSS feed.
 9. Click Start Execution
