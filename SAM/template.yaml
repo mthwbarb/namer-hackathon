@@ -1,0 +1,210 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  myFirstLambda
+
+  Sample SAM Template for myFirstLambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 512
+
+Resources:
+  createPodcastStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      DefinitionUri: statemachine/createPodcast.asl.json
+      DefinitionSubstitutions:
+        processRSSFunctionArn: !GetAtt processRSSFunction.Arn
+        generateDialogFunctionArn: !GetAtt generateDialogFunction.Arn
+        generateTopicAudioFunctionArn: !GetAtt generateTopicAudioFunction.Arn
+        generateTransitionsFunctionArn: !GetAtt generateTransitionsFunction.Arn
+        generateIntroFunctionArn: !GetAtt generateIntroFunction.Arn
+        generateOutroFunctionArn: !GetAtt generateOutroFunction.Arn
+        generatePlaylistFunctionArn: !GetAtt generatePlaylistFunction.Arn
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref processRSSFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generateDialogFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generateTransitionsFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generatePlaylistFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generateIntroFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generateOutroFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref generateTopicAudioFunction
+  
+  MyBucket:
+    Type: AWS::S3::Bucket
+
+  processRSSFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: processRSS/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+  
+  generateDialogFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generateDialog/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - Statement:
+        - Sid: SagemakerInvokeEndpoint
+          Effect: Allow
+          Action:
+          - sagemaker:InvokeEndpointAsync
+          - sagemaker:InvokeEndpoint
+          Resource: '*'
+  
+  generateTransitionsFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generateTransitions/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - Statement:
+        - Sid: PollyFullAccess
+          Effect: Allow
+          Action:
+          - polly:*
+          Resource: '*'
+        - Sid: SagemakerInvokeEndpoint
+          Effect: Allow
+          Action:
+          - sagemaker:InvokeEndpointAsync
+          - sagemaker:InvokeEndpoint
+          Resource: '*'
+  
+  generatePlaylistFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generatePlaylist/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+  
+  generateIntroFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generateIntro/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - Statement:
+        - Sid: PollyFullAccess
+          Effect: Allow
+          Action:
+          - polly:*
+          Resource: '*'
+        - Sid: SagemakerInvokeEndpoint
+          Effect: Allow
+          Action:
+          - sagemaker:InvokeEndpointAsync
+          - sagemaker:InvokeEndpoint
+          Resource: '*'
+  
+  generateOutroFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generateOutro/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - Statement:
+        - Sid: PollyFullAccess
+          Effect: Allow
+          Action:
+          - polly:*
+          Resource: '*'
+        - Sid: SagemakerInvokeEndpoint
+          Effect: Allow
+          Action:
+          - sagemaker:InvokeEndpointAsync
+          - sagemaker:InvokeEndpoint
+          Resource: '*'
+  
+  generateTopicAudioFunction:
+    Type: AWS::Serverless::Function
+    Connectors:
+      BucketConn:
+        Properties:
+          Destination:
+            Id: MyBucket
+          Permissions:
+            - Read
+            - Write
+    Properties:
+      CodeUri: generateTopicAudio/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - Statement:
+        - Sid: PollyFullAccess
+          Effect: Allow
+          Action:
+          - polly:*
+          Resource: '*'
+        - Sid: SagemakerInvokeEndpoint
+          Effect: Allow
+          Action:
+          - sagemaker:InvokeEndpointAsync
+          - sagemaker:InvokeEndpoint
+          Resource: '*'
