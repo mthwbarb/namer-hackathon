@@ -4,8 +4,11 @@ import json
 import time
 import base64
 
-bucketName = 'createpodcast-mybucket-1ruzhibfpbuhi'
-runId = 'f77a4d27-0595-48b3-85d0-1944a04cb5d3'
+#Replace these variables
+####################################################
+bucketName = '<YOUR BUCKET NAME'
+runId = '<YOUR UUID>'
+####################################################
 
 def startPodcast():
     st.title('The AWS Factor Podcast')
