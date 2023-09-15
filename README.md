@@ -4,7 +4,7 @@
 This repo contains an AWS SAM definition and a sample streamlit app to play your podcast.
 
 ## Pre-Reqs
-1. Sagemaker Endpoint running Llama-2-7b-chat
+1. Sagemaker Endpoint running Llama-2-7b-chat (tested on ml.g5.2xlarge)
 2. AWS CLI
 3. AWS SAM CLI   see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 4. boto3 installed `pip install boto3`
@@ -17,13 +17,13 @@ This repo contains an AWS SAM definition and a sample streamlit app to play your
 2. Build the SAM package `sam build --use-container`
 3. Deploy the package.`sam deploy --guided`  Give your stack a name, and use the region where your SageMaker Endpoint is deployed.  Use the defaults for the rest of the options.
 4. The following resources will be deployed: AWS Step Functions State Machine, AWS S3 Bucket, 7 Lambda functions, various IAM roles and policies
-5. Navigate to the deployed state machine and choose New Execution
-6. Paste the jason from `sampleStepFunctionInput` into the execution input field
+5. Navigate to the deployed state machine and choose **New Execution**
+6. Paste the json from `sampleStepFunctionInput` into the execution input field
 7. Replace the `bucket` with the bucket name deployed by the SAM application
 8. Replace `llmEndpoint` with your SageMaker Endpoint Name.
 9. Replace `numDays` with the number of days from today that you want to process from the RSS feed.
 9. Click Start Execution
-10. Depending on the number of new announcements, execution can take anywhere from 5-15 minutes
+10. Depending on the number of new announcements and your SageMaker Endpoint instance type, execution can take anywhere from 5-15 minutes or longer.
 11. Grab the `UUID` by clicking on the **Generate UUID** task, choose the **Output** tab, and scroll down to the **Output** field.  Copy the `UUID` value.  You will need this if you want to run the Streamlit app below.
 
 ### Listen to your podcast
