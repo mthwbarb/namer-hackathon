@@ -93,7 +93,6 @@
         }
       },
       "MaxConcurrency": 1,
-      "InputPath": "$.Result.Payload",
       "ResultPath": "$.Result",
       "Next": "Parallel",
       "ItemsPath": "$.Result.Payload",

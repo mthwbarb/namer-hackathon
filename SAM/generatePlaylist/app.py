@@ -101,8 +101,8 @@ def lambda_handler(event, context):
         #write playlist to s3
         s3object = s3.Object(bucketName, runId + '/playlist.json')
         response = s3object.put(Body=json.dumps(playlist2))
-        print("Playlist saved to s3: "+ str(response))
-        return "Playlist saved to s3: "+ str(response)
+        print("Playlist saved to s3 bucket: "+bucketName+".  runId is: "+runId)
+        return "Playlist saved to s3 bucket: "+bucketName+".  runId is: "+runId
     except (Exception, KeyboardInterrupt) as e:
         print(e)
         return 'Error occurred'

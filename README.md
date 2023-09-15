@@ -18,13 +18,14 @@ This repo contains an AWS SAM definition and a sample streamlit app to play your
 3. Deploy the package.`sam deploy --guided`  Give your stack a name, and use the region where your SageMaker Endpoint is deployed.  Use the defaults for the rest of the options.
 4. The following resources will be deployed: AWS Step Functions State Machine, AWS S3 Bucket, 7 Lambda functions, various IAM roles and policies.
 5. Navigate to the deployed state machine and choose **New Execution**
-6. Paste the json from `sampleStepFunctionInput` into the execution input field
-7. Replace the `bucket` with the bucket name deployed by the SAM application.
-8. Replace `llmEndpoint` with your SageMaker Endpoint Name.
-9. Replace `numDays` with the number of days from today that you want to process from the RSS feed.
-9. Click Start Execution
-10. Depending on the number of new announcements and your SageMaker Endpoint instance type, execution can take anywhere from 5-15 minutes or longer.
-11. Grab the `UUID` by clicking on the **Generate UUID** task, choose the **Output** tab, and scroll down to the **Output** field.  Copy the `UUID` value.  You will need this if you want to run the Streamlit app below.
+6. Open the included `sampleStepFunctionInput.json` file, update the following fields, and save:
+* Replace the `bucket` with the bucket name deployed by the SAM application
+*  Replace `llmEndpoint` with your SageMaker Endpoint Name.
+*  Replace `numDays` with the number of days from today that you want to process from the RSS feed.
+7. Execute the Step Function from the command line: `aws stepfunctions start-execution --state-machine-arn <YOUR STATE MACHINE ARN> --input "$(jq -R . sampleStepFunctionInput.json --raw-output)"`
+8. Depending on the number of new announcements in the time range that you specified in `numDays` and your SageMaker Endpoint instance type, execution can take anywhere from 5-15 minutes or longer.
+9. Monitor the execution by running the command: `aws stepfunctions describe-execution --execution-arn <YOUR EXECUTION ARN>`.  Get the Execution ARN from the output of Step 7.
+10. Once complete, grab the `runID` and `bucket name` from the output of Step 9.  You will need this if you want to run the Streamlit app below.
 
 ### Listen to your podcast
 You have 2 options:
