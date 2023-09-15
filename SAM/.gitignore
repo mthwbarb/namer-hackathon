@@ -303,7 +303,7 @@ Thumbs.db
 # Docs: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html
 
 **/.aws-sam
-
+samconfig.toml
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
