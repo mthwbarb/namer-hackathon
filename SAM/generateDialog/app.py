@@ -4,7 +4,6 @@ import urllib.parse
 
 s3=boto3.resource('s3')
 sagemaker = boto3.client('sagemaker')
-ENDPOINT_NAME = 'meta-textgeneration-llama-2-7b-f-2023-09-08-18-21-21-541'
 runtime = boto3.client('runtime.sagemaker')
 
 def generatePayload(feed_item):
@@ -27,9 +26,9 @@ def generatePayload(feed_item):
     }
     return payload
 
-def createDialog(payload):
+def createDialog(payload,endpoint):
     print("Invoking Endpoint")
-    response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME, ContentType='application/json', Body=json.dumps(payload), CustomAttributes="accept_eula=true")
+    response = runtime.invoke_endpoint(EndpointName=endpoint, ContentType='application/json', Body=json.dumps(payload), CustomAttributes="accept_eula=true")
     result = json.loads(response['Body'].read().decode())
     output = result[0]["generation"]["content"]
     print(result)
@@ -64,17 +63,15 @@ def write_object(bucket,feeditem,dialog,run_id):
 
 def lambda_handler(event, context):
     try:
-        
-        #bucketname = event['Records'][0]['s3']['bucket']['name']
-        #key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
         bucketname = event['metadata']['bucket']
         key = event['metadata']['key']
         runId = event['runId']
+        endpoint = event['llmEndpoint']
         bucket = s3.Bucket(bucketname)
         feeditem = bucket.Object(key).get()['Body'].read().decode()
         print('runId is: ' + runId)
         payload = generatePayload(feeditem)
-        dialog = createDialog(payload)
+        dialog = createDialog(payload,endpoint)
         response = write_object(bucketname,feeditem,dialog,runId)
         #print(response)
         return response[1]

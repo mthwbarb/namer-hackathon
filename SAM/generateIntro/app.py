@@ -96,14 +96,10 @@ def lambda_handler(event, context):
         print(event)
         s3=boto3.resource('s3')
         bucketName = event['bucket']
-        #bucketName='entr-genai-hackathon'
         bucket = s3.Bucket(bucketName)
         runId = event['uuid']
-        #runId = '3407e722-1950-495e-a06b-f4e3bf5ddf27'
-        #endpoint = 'meta-textgeneration-llama-2-7b-f-2023-09-08-18-21-21-541'
         endpoint = event['llmEndpoint']
         numDays = event['numDays']
-        #numDays = 7
         
         print("runId: " +runId)
         print("Bucket: "+bucketName)

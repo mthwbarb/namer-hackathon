@@ -6,9 +6,6 @@ from mutagen.mp3 import MP3
 
 def lambda_handler(event, context):
     try:
-        #bucketName = "entr-genai-hackathon"
-        #runId = "160ce841-cafe-45cf-b3fb-02698e079faa"
-        
         bucketName = event['bucket']
         runId = event['uuid']
         

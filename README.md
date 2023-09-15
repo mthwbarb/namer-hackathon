@@ -45,3 +45,8 @@ To run the Streamlit app, do the following:
 1.Empty the S3 bucket or you will get an error when you delete the SAM application
 2. `aws sam delete --stack-name <your stack name here>`
 
+
+
+### What do the Lambdas Do?
+
+* **processRSS** - Iterates through the RSS feed from today backward up to the number of days specified.  It takes the 
