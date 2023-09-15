@@ -1,0 +1,6 @@
+{
+  "bucket": "<BUCKET NAME HERE>",
+  "feedUrl": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
+  "numDays": "3",
+  "llmEndpoint": "<SAGEMAKER ENDPOINT NAME HERE>"
+}
