@@ -56,7 +56,7 @@ Resources:
     Properties:
       CodeUri: processRSS/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       Policies:
   
   generateDialogFunction:
@@ -72,7 +72,7 @@ Resources:
     Properties:
       CodeUri: generateDialog/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       Policies:
       - Statement:
         - Sid: SagemakerInvokeEndpoint
@@ -95,7 +95,8 @@ Resources:
     Properties:
       CodeUri: generateTransitions/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
+      Timeout: 300
       Policies:
       - Statement:
         - Sid: PollyFullAccess
@@ -123,7 +124,8 @@ Resources:
     Properties:
       CodeUri: generatePlaylist/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
+      EphemeralStorage: 1024
   
   generateIntroFunction:
     Type: AWS::Serverless::Function
@@ -138,7 +140,7 @@ Resources:
     Properties:
       CodeUri: generateIntro/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       Policies:
       - Statement:
         - Sid: PollyFullAccess
@@ -166,7 +168,7 @@ Resources:
     Properties:
       CodeUri: generateOutro/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       Policies:
       - Statement:
         - Sid: PollyFullAccess
@@ -194,7 +196,7 @@ Resources:
     Properties:
       CodeUri: generateTopicAudio/
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       Policies:
       - Statement:
         - Sid: PollyFullAccess
