@@ -7,6 +7,7 @@ This repo contains an AWS SAM definition and a sample streamlit app to play your
 1. Sagemaker Endpoint running Llama-2-7b-chat
 2. AWS CLI
 3. AWS SAM CLI   see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
+4. Note: If you use AWS Cloud9, 2 and 3 above are already preinstalled.
 
 ## Instructions
 
